@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Core.Entities
+﻿namespace Core.Entities
 {
     public class Product : BaseEntity
     {
@@ -10,9 +8,9 @@ namespace Core.Entities
         public string PictureUrl { get; set; }
 
         public ProductType ProductType { get; set; }
-        public Guid ProductTypeId { get; set; }
+        public int ProductTypeId { get; set; }
 
         public ProductBrand ProductBrand { get; set; }
-        public Guid ProductBrandId { get; set; }
+        public int ProductBrandId { get; set; }
     }
 }
