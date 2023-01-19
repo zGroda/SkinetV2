@@ -1,3 +1,5 @@
+using API.Helpers;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repository;
@@ -19,7 +21,9 @@ namespace API
         {
             //Business Services
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+            services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddControllers();
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
@@ -36,6 +40,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //static files
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
