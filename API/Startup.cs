@@ -1,8 +1,7 @@
+using API.Extensions;
 using API.Helpers;
-using Core.Entities;
-using Core.Interfaces;
+using API.Middleware;
 using Infrastructure.Data;
-using Infrastructure.Data.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -19,23 +18,21 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Business Services
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
             services.AddAutoMapper(typeof(MappingProfiles));
 
             services.AddControllers();
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
+
+            services.AddApplicationServices();
+            services.AddSwaggerDocumentation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
@@ -44,6 +41,8 @@ namespace API
             app.UseStaticFiles();
 
             app.UseAuthorization();
+
+            app.UseSwaggerDocumantion();
 
             app.UseEndpoints(endpoints =>
             {
