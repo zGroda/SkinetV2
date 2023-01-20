@@ -1,9 +1,11 @@
 ﻿using API.Dtos;
 using API.Errors;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace API.Controllers
 {
@@ -27,10 +29,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecificationParams productSpecificationParams)
         {
-            var specification = new ProductsWithTypesAndBrandsSpecification();
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(await _productRepository.ListWithSpecificationAsync(specification)));
+            var specification = new ProductsWithTypesAndBrandsSpecification(productSpecificationParams);
+            var countSpec = new ProductWithFiltersForCountSpecification(productSpecificationParams);
+
+            var totalItems = await _productRepository.CountAsync(countSpec);
+            var productList = await _productRepository.ListWithSpecificationAsync(specification);
+
+            var dataResponse = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(productList);
+
+            return Ok(new Pagination<ProductToReturnDto>(productSpecificationParams.PageIndex, productSpecificationParams.PageSize, totalItems, dataResponse));
         }
 
         [HttpGet("{id}")]

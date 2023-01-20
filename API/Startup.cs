@@ -25,6 +25,7 @@ namespace API
 
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
+            services.AddCorsService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,8 +38,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            //static files
             app.UseStaticFiles();
+            app.UseCorsService();
 
             app.UseAuthorization();
 

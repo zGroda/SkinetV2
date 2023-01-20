@@ -8,5 +8,6 @@ namespace Core.Entities
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> GetEntityWithSpecification(ISpecification<T> specification);
         Task<IReadOnlyList<T>> ListWithSpecificationAsync(ISpecification<T> specification);
+        Task<int> CountAsync(ISpecification<T> specification); 
     }
 }
