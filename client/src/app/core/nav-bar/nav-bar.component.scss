@@ -22,3 +22,20 @@ $browser-context: 16;
     top: em(-12px);
     right: em(32px);
 }
+
+a {
+  text-decoration: none;
+  color: #343a40;
+
+  &.active {
+     color: orange;
+  }
+}
+
+.logo {
+  cursor: pointer;
+
+  &:focus{
+    outline: none;
+  }
+}
