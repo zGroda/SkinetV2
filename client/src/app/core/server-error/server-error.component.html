@@ -7,7 +7,7 @@
     <h5 class="text-danger">
       Error: {{ error.statusCode }} - {{ error.errorMessage }}
     </h5>
-    <h6 class="text-primary">Request URL: {{ requestUrl }}</h6>
+    <h6 class="text-warning">Request URL: {{ requestUrl }}</h6>
     <p class="font-weight-bold">
       Note: if you are seeing this then Angular is probably not responsible
     </p>
@@ -26,8 +26,6 @@
       Following is the stack trace - this is where your investigation should
       start!
     </p>
-    <code class="mt-5" style="background-color: whitesmoke">{{
-      error.details
-    }}</code>
+    <code class="mt-5" style="font-size: 1rem">{{ error.details }}</code>
   </ng-container>
 </div>
