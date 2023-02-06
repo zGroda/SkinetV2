@@ -1,5 +1,5 @@
 <div class="container mt-5">
-  <div class="row">
+  <div class="row" *ngIf="productTypes.length > 0 && brands.length > 0">
     <section class="col-3">
       <h5 class="text-warning ml-3">Sort</h5>
       <select
@@ -31,6 +31,7 @@
           [class.active]="productType.id === this.shopParams.productTypeId"
           [value]="productType.id"
           (click)="onProductTypeSelected(productType.id)"
+          style="cursor: pointer"
         >
           {{ productType.name }}
         </li>
