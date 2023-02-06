@@ -1,6 +1,7 @@
-﻿using Core.Specifications;
+﻿using Core.Entities;
+using Core.Specifications;
 
-namespace Core.Entities
+namespace Core.Interfaces
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
@@ -8,6 +9,6 @@ namespace Core.Entities
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> GetEntityWithSpecification(ISpecification<T> specification);
         Task<IReadOnlyList<T>> ListWithSpecificationAsync(ISpecification<T> specification);
-        Task<int> CountAsync(ISpecification<T> specification); 
+        Task<int> CountAsync(ISpecification<T> specification);
     }
 }
